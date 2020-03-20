@@ -1,0 +1,51 @@
+swagger: "2.0"
+info:
+  description: |
+    # This is an api that adds shadow to hand-drawn sketches.
+
+    [`github`](https://github.com/qyzdao/ShadeSketch)
+    [`paper`](https://arxiv.org/abs/2002.11812)
+    [`API github`](https://github.com/vyvydkf628/ShadeSketch)
+
+    ---
+
+    How to use:
+
+      * send your hand drawn sketch
+      * get your hand drawn sketch with shadow automatically drawn
+  version: "1.0.0"
+  title: "Shade Sketch"
+
+  contact:
+    email: "qing3@umbc.edu"
+  
+  license:
+    name: "Models are available under Creative Commons BY-NC 4.0 license. You can use, redistribute the models for non-commercial purposes."
+host: "sketch.vyvydkf628.endpoint.ainize.ai"
+schemes: 
+  - https
+  - http
+paths:
+  /sketch:
+    post:
+      tags:
+      - "Shadow hand-drawn Sketches"
+      summary: "Add your hand-drawn sketche"
+      description: ""
+      operationId: "add Image"
+      consumes:
+        - multipart/form-data
+      parameters:
+         - in: formData
+           name: image
+           type: file
+           description: Image upload.
+      produces:
+        - image/png
+        - image/gif
+        - image/jpeg
+      responses:
+        200:
+          description: A Image file.
+          schema:
+            type: file

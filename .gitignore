@@ -6,7 +6,7 @@ __pycache__/
 linenorm.pb
 lineshader.pb
 # node_moudles
-node_moudles
+node_moudles/
 
 # C extensions
 *.so
