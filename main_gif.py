@@ -34,14 +34,14 @@ if not os.path.exists(out_dir):
 
 # Line norm
 with tf.Graph().as_default():
-    output_graph_def = tf.GraphDef()
+    output_graph_def = tf.compat.v1.GraphDef()
 
     with open("linenorm.pb", "rb") as f:
         output_graph_def.ParseFromString(f.read())
         tensors = tf.import_graph_def(output_graph_def, name="")
 
-    with tf.Session() as sess:
-        init = tf.global_variables_initializer()
+    with tf.compat.v1.Session() as sess:
+        init = tf.compat.v1.global_variables_initializer()
         sess.run(init)
 
         op = sess.graph.get_operations()
@@ -64,14 +64,14 @@ with tf.Graph().as_default():
 
 # Line shade
 with tf.Graph().as_default():
-    output_graph_def = tf.GraphDef()
+    output_graph_def = tf.compat.v1.GraphDef()
 
     with open("lineshader.pb", "rb") as f:
         output_graph_def.ParseFromString(f.read())
         tensors = tf.import_graph_def(output_graph_def, name="")
 
-    with tf.Session() as sess:
-        init = tf.global_variables_initializer()
+    with tf.compat.v1.Session() as sess:
+        init = tf.compat.v1.global_variables_initializer()
         sess.run(init)
 
         inputs1 = sess.graph.get_tensor_by_name('input_1:0')
