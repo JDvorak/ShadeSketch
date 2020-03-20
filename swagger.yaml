@@ -31,7 +31,7 @@ paths:
       tags:
       - "Shadow hand-drawn Sketches"
       summary: "Add your hand-drawn sketche"
-      description: ""
+      description: "[sample image1](https://raw.githubusercontent.com/qyzdao/ShadeSketch/master/val/10.png) \n [sample image2](https://raw.githubusercontent.com/qyzdao/ShadeSketch/master/val/1.png)"
       operationId: "add Image"
       consumes:
         - multipart/form-data
