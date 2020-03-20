@@ -3,7 +3,8 @@ __pycache__/
 *.py[cod]
 *$py.class
 
-
+linenorm.pb
+lineshader.pb
 # node_moudles
 node_moudles
 
