@@ -9,6 +9,9 @@ parser.add_argument('--image-size', type=int, default=320,
                     help='input image size (default: 320)')
 parser.add_argument('--direction', type=str, default='810',
                     help='lighting directions (suggest to choose 810, 210, 710)')
+
+parser.add_argument('--dir', type=str, default='810',
+                    help='dir')
 args = parser.parse_args()
 
 
@@ -54,15 +57,16 @@ with tf.Graph().as_default():
 
         for root, dirs, files in os.walk('val/', topdown=False):
             for name in files:
-                line_path = os.path.join(root, name)
-                print(line_path)
+                if name==args.dir :
+                    line_path = os.path.join(root, name)
+                    print(line_path)
 
-                img = cv2.imread(line_path, cv2.IMREAD_GRAYSCALE)
-                img = cv2.resize(img, (s, s))
-                img = img.astype(np.float32) / 255.
+                    img = cv2.imread(line_path, cv2.IMREAD_GRAYSCALE)
+                    img = cv2.resize(img, (s, s))
+                    img = img.astype(np.float32) / 255.
 
-                img_out = sess.run(outputs, {inputs: np.reshape(img, (1, img.shape[0], img.shape[1], 1))})
-                cv2.imwrite(os.path.join('norm/', name), np.squeeze(img_out) * 255.)
+                    img_out = sess.run(outputs, {inputs: np.reshape(img, (1, img.shape[0], img.shape[1], 1))})
+                    cv2.imwrite(os.path.join('norm/', name), np.squeeze(img_out) * 255.)
 
 
 # Line shade
@@ -84,25 +88,26 @@ with tf.Graph().as_default():
 
         for root, dirs, files in os.walk('norm/', topdown=False):
             for name in files:
-                norm_path = os.path.join(root, name)
-                print(norm_path)
+                if name == args.dir :
+                    norm_path = os.path.join(root, name)
+                    print(norm_path)
 
-                img = cv2.imread(norm_path, cv2.IMREAD_GRAYSCALE)
-                img = 1 - img.astype(np.float32) / 255. #inverse black-in-white lines to white-in-black
+                    img = cv2.imread(norm_path, cv2.IMREAD_GRAYSCALE)
+                    img = 1 - img.astype(np.float32) / 255. #inverse black-in-white lines to white-in-black
 
-                cond = cond_to_pos(args.direction) # lighting direction
-                
-                img_out = sess.run(
-                    outputs, {
-                        inputs1: np.expand_dims(cond, 0),
-                        inputs2: np.reshape(img, (1, s, s, 1)),
-                    }
-                )
+                    cond = cond_to_pos(args.direction) # lighting direction
+                    
+                    img_out = sess.run(
+                        outputs, {
+                            inputs1: np.expand_dims(cond, 0),
+                            inputs2: np.reshape(img, (1, s, s, 1)),
+                        }
+                    )
 
-                line = cv2.imread(os.path.join('val/', name), cv2.IMREAD_GRAYSCALE)
-                line = cv2.resize(line, (s, s))
+                    line = cv2.imread(os.path.join('val/', name), cv2.IMREAD_GRAYSCALE)
+                    line = cv2.resize(line, (s, s))
 
-                shade = (1 - (np.squeeze(img_out) + 1) / 2) * 255. # inverse white-in-black shadow to black-in-white
-                final_output = 0.8 * line + 0.2 * shade # composite line drawing and shadow
-                cv2.imwrite(os.path.join('out/', name), final_output)
+                    shade = (1 - (np.squeeze(img_out) + 1) / 2) * 255. # inverse white-in-black shadow to black-in-white
+                    final_output = 0.8 * line + 0.2 * shade # composite line drawing and shadow
+                    cv2.imwrite(os.path.join('out/', name), final_output)
 

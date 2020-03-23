@@ -5,6 +5,7 @@ COPY package*.json ./
 RUN npm install
 RUN apt-get update
 RUN apt-get install -y --no-install-recommends python3-pip
+RUN apt-get install imagemagick
 RUN pip3 install --upgrade setuptools
 RUN pip3 install --no-cache-dir tensorflow>=1.12.0
 RUN pip3 install --no-cache-dir argparse

@@ -41,6 +41,32 @@ paths:
            type: file
            description: Image upload.
       produces:
+        - image/jpg
+        - image/png
+        - image/gif
+        - image/jpeg
+      responses:
+        200:
+          description: A Image file.
+          schema:
+            type: file
+
+  /sketch/makegif:
+    post:
+      tags:
+      - "Shadow hand-drawn Sketches 80 frames"
+      summary: "Add your hand-drawn sketche and make shadow with 80 frames"
+      description: "[sample image1](https://raw.githubusercontent.com/qyzdao/ShadeSketch/master/val/10.png) \n [sample image2](https://raw.githubusercontent.com/qyzdao/ShadeSketch/master/val/1.png)"
+      operationId: "add Image"
+      consumes:
+        - multipart/form-data
+      parameters:
+         - in: formData
+           name: image
+           type: file
+           description: Image upload.
+      produces:
+        - image/jpg
         - image/png
         - image/gif
         - image/jpeg
