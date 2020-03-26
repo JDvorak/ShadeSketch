@@ -1,6 +1,7 @@
-[![Run on Ainize](https://www.ainize.ai/static/images/run_on_ainize_button.svg)](https://ainize.web.app/redirect?git_repo=github.com/vyvydkf628/ShadeSketch)
-
 # Shade Sketches
+[![Run on Ainize](https://www.ainize.ai/static/images/run_on_ainize_button.svg)](https://ainize.web.app/redirect?git_repo=github.com/vyvydkf628/ShadeSketch)
+This repository provides an API server, called ShadeSketch API, that generate detailed and accurate artistic shadows from pairs of line drawing sketches and lighting directions.
+
 
 # Learning to Shadow Hand-drawn Sketches
 
