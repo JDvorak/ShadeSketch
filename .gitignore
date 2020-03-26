@@ -8,6 +8,13 @@ lineshader.pb
 # node_moudles
 node_modules/
 
+#dumy
+norm/
+out/
+val/*
+image_list.txt
+
+
 # C extensions
 *.so
 

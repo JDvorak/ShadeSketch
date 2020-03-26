@@ -22,7 +22,7 @@ const upload = multer({
         fileSize: 1000000
     },
     fileFilter(req, file, cb) {
-        if(!file){
+        if(!file.originalname){
             return cb(new Error('must be file'))
         }
         if(!file.originalname.match(/\.(jpg|jpeg|png)$/)){
@@ -33,9 +33,36 @@ const upload = multer({
     
 })
 
+const checkRange = (direction)=>{
+    if(!direction) return "320"
+    
+    const range = ["110","210","310","410","510","610","710","810","120","220","320","420","520","620","720","820","130","230","330","430","530","630","730","830"]
+    const newarr = range.filter((item)=> {return item===direction})
+    
+    if(newarr[0]) return newarr[0]
+    return "320"
+}
+
+const imageResize = (size)=>{
+    if(!size) return "320"
+    if(size==="small") return "160"
+    if(size==="medium") return "320"
+    if(size==="large") return "480"
+}
+
 router.post('/sketch',upload.single('image'),async (req,res)=>{
-    const argument = ["./main.py", "--image-size=320", "--direction=810",`--dir='${req.file.filename}'`]
+    
+    // 큐로하면 뭐가 좋을까
+    // new) upload -> que.add -> redirect to /result -> send result 
+    // ori) upload -> send result
+
+    if(!req.file) res.status(400).send({error: "must have image"})
+    const direction = checkRange(req.query.direction)
+    const size= imageResize(req.query.size)
+
+    const argument = ["./main.py", `--image-size=${size}`, `--direction=${direction}`,`--dir='${req.file.filename}'`]
     const pyProg = spawn('python3', argument,{shell: true})
+
     try {
             pyProg.stdout.on('data',(data)=>{
                 console.log(data.toString())
@@ -53,10 +80,11 @@ router.post('/sketch',upload.single('image'),async (req,res)=>{
 })
 
 router.post('/sketch/makegif',upload.single('image'),async (req,res)=>{
-    console.log(req.file.filename)
-    const argument = ["./main_gif.py", "--image-size=320", `--dir='${req.file.filename}'`]
+    if(!req.file) res.status(400).send({error: "must have image"})
+    const size= imageResize(req.query.size)
+
+    const argument = ["./main_gif.py", `--image-size=${size}`, `--dir='${req.file.filename}'`]
     const pyProg = spawn('python3', argument,{ shell: true })
-    console.log(argument)
     try {
         pyProg.stdout.on('data', function(data) {
              console.log(data.toString())

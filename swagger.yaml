@@ -36,10 +36,28 @@ paths:
       consumes:
         - multipart/form-data
       parameters:
-         - in: formData
-           name: image
-           type: file
-           description: Image upload.
+          - in: formData
+            name: image
+            type: file
+            description: Image upload.
+          - in: query
+            name: direction
+            required: false
+            type: array
+            uniqueItems: true
+            description: Select the direction of light
+            items:
+              type: string
+              enum: [110,210,310,410,510,610,710,810,120,220,320,420,520,620,720,820,130,230,330,430,530,630,730,830]
+          - in: query
+            name: size
+            type: array
+            uniqueItems: true
+            description: Select image size
+            items:
+              type: string
+              enum: [small,medium,large]
+             
       produces:
         - image/jpg
         - image/png
@@ -54,10 +72,10 @@ paths:
   /sketch/makegif:
     post:
       tags:
-      - "Shadow hand-drawn Sketches 80 frames"
-      summary: "Add your hand-drawn sketche and make shadow with 80 frames"
+      - "Shadow hand-drawn Sketches 20 frames"
+      summary: "Add your hand-drawn sketche and make shadow with 20 frames"
       description: "[sample image1](https://raw.githubusercontent.com/qyzdao/ShadeSketch/master/val/10.png) \n [sample image2](https://raw.githubusercontent.com/qyzdao/ShadeSketch/master/val/1.png)"
-      operationId: "add Image"
+      operationId: "add your image"
       consumes:
         - multipart/form-data
       parameters:
@@ -65,6 +83,15 @@ paths:
            name: image
            type: file
            description: Image upload.
+         - in: query
+           name: size
+           type: array
+           uniqueItems: true
+           description: Select image size
+           items:
+             type: string
+             enum: [small,medium,large]
+            
       produces:
         - image/jpg
         - image/png

@@ -94,7 +94,7 @@ with tf.Graph().as_default():
 
         # cond = [-1, 1, 0]     # 820-220  (side lighting)
         cond = [-1, 1, -1]     # 810-210  (front lighting)
-        for i in range(20):
+        for i in range(5):
             img_out = sess.run(
                 outputs, {
                     inputs1: np.expand_dims(cond, 0),
@@ -104,11 +104,11 @@ with tf.Graph().as_default():
             shade = (1 - (np.squeeze(img_out) + 1) / 2) * 255. 
             final_output = 0.8 * line + 0.2 * shade
             cv2.imwrite((out_dir + '/%s.png') % str(i), final_output)
-            cond[0] = cond[0] + 0.1
+            cond[0] = cond[0] + 0.5
         
         # cond = [1, 1, 0]     # 220-420
         cond = [1, 1, -1]     # 210-410
-        for i in range(20):
+        for i in range(5):
             img_out = sess.run(
                 outputs, {
                     inputs1: np.expand_dims(cond, 0),
@@ -118,11 +118,12 @@ with tf.Graph().as_default():
             shade = (1 - (np.squeeze(img_out) + 1) / 2) * 255. 
             final_output = 0.8 * line + 0.2 * shade
             cv2.imwrite((out_dir + '/%s.png') % str(i+20), final_output)
-            cond[1] = cond[1] - 0.1
+            cond[1] = cond[1] - 0.5
+            
         
         # cond = [1, -1, 0]     # 420-620
         cond = [1, -1, -1]     # 410-610
-        for i in range(20):
+        for i in range(5):
             img_out = sess.run(
                 outputs, {
                     inputs1: np.expand_dims(cond, 0),
@@ -132,11 +133,12 @@ with tf.Graph().as_default():
             shade = (1 - (np.squeeze(img_out) + 1) / 2) * 255. 
             final_output = 0.8 * line + 0.2 * shade
             cv2.imwrite((out_dir + '/%s.png') % str(i+40), final_output)
-            cond[0] = cond[0] - 0.1
+            cond[0] = cond[0] - 0.5
+            
         
         # cond = [-1, -1, 0]     # 620-820
         cond = [-1, -1, -1]     # 610-810
-        for i in range(20):
+        for i in range(5):
             img_out = sess.run(
                 outputs, {
                     inputs1: np.expand_dims(cond, 0),
@@ -146,6 +148,7 @@ with tf.Graph().as_default():
             shade = (1 - (np.squeeze(img_out) + 1) / 2) * 255. 
             final_output = 0.8 * line + 0.2 * shade
             cv2.imwrite((out_dir + '/%s.png') % str(i+60), final_output)
-            cond[1] = cond[1] + 0.1
+            cond[1] = cond[1] + 0.5
+            
         
 
